@@ -5,9 +5,10 @@ import { NextResponse } from "next/server";
 // GET /api/auth/users/[id]
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const supabase = createRouteHandlerClient({ cookies });
 
     // Check authentication
@@ -30,7 +31,7 @@ export async function GET(
         )
       `
       )
-      .eq("id", params.id)
+      .eq("id", id)
       .single();
 
     if (error) throw error;
@@ -51,9 +52,10 @@ export async function GET(
 // PATCH /api/auth/users/[id]
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const supabase = createRouteHandlerClient({ cookies });
 
     // Check authentication and admin status
@@ -71,7 +73,7 @@ export async function PATCH(
       .eq("id", session.user.id)
       .single();
 
-    if (userData?.role !== "Administrator" && session.user.id !== params.id) {
+    if (userData?.role !== "Administrator" && session.user.id !== id) {
       return NextResponse.json(
         {
           error:
@@ -87,7 +89,7 @@ export async function PATCH(
     const { data, error } = await supabase
       .from("users")
       .update({ name, role_id, department, position })
-      .eq("id", params.id)
+      .eq("id", id)
       .select(
         `
         *,
@@ -118,9 +120,10 @@ export async function PATCH(
 // DELETE /api/auth/users/[id]
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const supabase = createRouteHandlerClient({ cookies });
 
     // Check authentication and admin status
@@ -146,16 +149,14 @@ export async function DELETE(
     }
 
     // First delete from auth
-    const { error: authError } = await supabase.auth.admin.deleteUser(
-      params.id
-    );
+    const { error: authError } = await supabase.auth.admin.deleteUser(id);
     if (authError) throw authError;
 
     // Then delete from public users
     const { error: userError } = await supabase
       .from("users")
       .delete()
-      .eq("id", params.id);
+      .eq("id", id);
 
     if (userError) throw userError;
 

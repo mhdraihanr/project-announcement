@@ -5,9 +5,10 @@ import { NextResponse } from "next/server";
 // GET /api/auth/roles/[id]
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const supabase = createRouteHandlerClient({ cookies });
 
     // Check authentication
@@ -21,7 +22,7 @@ export async function GET(
     const { data: role, error } = await supabase
       .from("roles")
       .select("*")
-      .eq("id", params.id)
+      .eq("id", id)
       .single();
 
     if (error) throw error;
@@ -42,9 +43,10 @@ export async function GET(
 // PATCH /api/auth/roles/[id]
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const supabase = createRouteHandlerClient({ cookies });
 
     // Check authentication and admin status
@@ -75,7 +77,7 @@ export async function PATCH(
     const { data, error } = await supabase
       .from("roles")
       .update({ name, level, description })
-      .eq("id", params.id)
+      .eq("id", id)
       .select()
       .single();
 
@@ -97,9 +99,10 @@ export async function PATCH(
 // DELETE /api/auth/roles/[id]
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const supabase = createRouteHandlerClient({ cookies });
 
     // Check authentication and admin status
@@ -124,7 +127,7 @@ export async function DELETE(
       );
     }
 
-    const { error } = await supabase.from("roles").delete().eq("id", params.id);
+    const { error } = await supabase.from("roles").delete().eq("id", id);
 
     if (error) throw error;
 

@@ -4,9 +4,9 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
-  { params }: { params: { channelId: string } }
+  { params }: { params: Promise<{ channelId: string }> }
 ) {
-  const channelId = params.channelId;
+  const { channelId } = await params;
 
   try {
     const supabase = createRouteHandlerClient({ cookies });
@@ -39,9 +39,9 @@ export async function GET(
 
 export async function POST(
   request: Request,
-  { params }: { params: { channelId: string } }
+  { params }: { params: Promise<{ channelId: string }> }
 ) {
-  const channelId = params.channelId;
+  const { channelId } = await params;
 
   try {
     const supabase = createRouteHandlerClient({ cookies });
