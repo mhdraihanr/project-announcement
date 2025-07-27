@@ -182,6 +182,14 @@ export interface AnnouncementAnalytics {
     totalReads: number;
     averageReadRate: number;
   }>;
+  userReadStatus: Array<{
+    userId: string;
+    userName: string;
+    userRole: string;
+    userDepartment: string;
+    readAnnouncements: number;
+    unreadAnnouncements: number;
+  }>;
 }
 
 export interface DocumentAnalytics {
@@ -221,4 +229,32 @@ export interface DocumentAnalytics {
     count: number;
     percentage: number;
   }>;
+  userReadStatus: Array<{
+    userId: string;
+    userName: string;
+    userRole: string;
+    userDepartment: string;
+    readDocuments: number;
+    unreadDocuments: number;
+    downloadedDocuments: number;
+  }>;
+}
+
+export interface AnnouncementUserReadStatus {
+  userId: string;
+  userName: string;
+  userRole: string;
+  userDepartment: string;
+  readAnnouncements: number;
+  unreadAnnouncements: number;
+}
+
+export interface DocumentUserReadStatus {
+  userId: string;
+  userName: string;
+  userRole: string;
+  userDepartment: string;
+  readDocuments: number;
+  unreadDocuments: number;
+  downloadedDocuments: number;
 }

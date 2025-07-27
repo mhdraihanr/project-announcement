@@ -1,28 +1,18 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import type { User, ChatChannel, Message, ChatMessage } from "@/types";
+import type { User, ChatChannel, ChatMessage } from "@/types";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  MessageCircle,
   Send,
-  Users,
   Hash,
-  Settings,
+  Users,
   UserPlus,
+  Settings,
   MoreHorizontal,
 } from "lucide-react";
 

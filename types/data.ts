@@ -17,13 +17,8 @@ import {
   Eye,
 } from "lucide-react";
 
-export const defaultUser: User = {
-  id: 1,
-  name: "John Doe",
-  role: "Manager",
-  department: "Sales",
-  avatar: "/api/placeholder/40/40",
-};
+// Removed defaultUser as it's not compatible with Supabase structure
+// Use actual user data from Supabase instead
 
 export const stats: Stat[] = [
   {
@@ -127,60 +122,8 @@ export const latestAnnouncements = [
   },
 ];
 
-export const defaultDocuments: Document[] = [
-  {
-    id: 1,
-    name: "Q4_Financial_Report.pdf",
-    type: "pdf",
-    size: "2.4 MB",
-    uploadedBy: "John Smith",
-    uploadDate: "2024-03-08",
-    accessLevel: "Manager",
-    department: "Finance",
-    downloads: 45,
-    views: 120,
-    shared: true,
-  },
-  {
-    id: 2,
-    name: "Marketing_Strategy_2024.docx",
-    type: "document",
-    size: "1.8 MB",
-    uploadedBy: "Sarah Johnson",
-    uploadDate: "2024-03-07",
-    accessLevel: "Employee",
-    department: "Marketing",
-    downloads: 23,
-    views: 67,
-    shared: false,
-  },
-  {
-    id: 3,
-    name: "Budget_Analysis.xlsx",
-    type: "spreadsheet",
-    size: "845 KB",
-    uploadedBy: "Mike Wilson",
-    uploadDate: "2024-03-06",
-    accessLevel: "Admin",
-    department: "Finance",
-    downloads: 12,
-    views: 34,
-    shared: true,
-  },
-  {
-    id: 4,
-    name: "Team_Photo_2024.jpg",
-    type: "image",
-    size: "3.2 MB",
-    uploadedBy: "HR Department",
-    uploadDate: "2024-03-05",
-    accessLevel: "Guest",
-    department: "HR",
-    downloads: 89,
-    views: 203,
-    shared: true,
-  },
-];
+// Removed defaultDocuments as documents are now fetched from Supabase
+// Use actual document data from the documents table instead
 
 export const defaultChannels: ChatChannel[] = [
   {
@@ -189,7 +132,7 @@ export const defaultChannels: ChatChannel[] = [
     type: "public",
     members: 156,
     unread: 0,
-    requiredRole: "Guest",
+    requiredRole: "Employee",
   },
   {
     id: "announcements",
@@ -197,7 +140,7 @@ export const defaultChannels: ChatChannel[] = [
     type: "public",
     members: 156,
     unread: 3,
-    requiredRole: "Guest",
+    requiredRole: "Employee",
   },
   {
     id: "it-support",
@@ -213,7 +156,7 @@ export const defaultChannels: ChatChannel[] = [
     type: "private",
     members: 12,
     unread: 0,
-    requiredRole: "Manager",
+    requiredRole: "Officer",
   },
   {
     id: "admin",
@@ -221,7 +164,7 @@ export const defaultChannels: ChatChannel[] = [
     type: "private",
     members: 3,
     unread: 0,
-    requiredRole: "Admin",
+    requiredRole: "Administrator",
   },
   {
     id: "sales-team",
@@ -243,123 +186,15 @@ export const defaultChannels: ChatChannel[] = [
   },
 ];
 
-export const defaultMessages: Record<string, Message[]> = {
-  general: [
-    {
-      id: 1,
-      user: "Sarah Johnson",
-      role: "Manager",
-      message: "Good morning everyone! Hope you all have a productive day.",
-      timestamp: "09:15 AM",
-      avatar: "/api/placeholder/32/32",
-    },
-    {
-      id: 2,
-      user: "Mike Wilson",
-      role: "Employee",
-      message: "Thanks Sarah! Looking forward to the team meeting later.",
-      timestamp: "09:18 AM",
-      avatar: "/api/placeholder/32/32",
-    },
-    {
-      id: 3,
-      user: "IT Department",
-      role: "Admin",
-      message: "Reminder: System maintenance tonight from 11 PM to 1 AM.",
-      timestamp: "10:30 AM",
-      avatar: "/api/placeholder/32/32",
-      isSystem: true,
-    },
-  ],
-  announcements: [
-    {
-      id: 1,
-      user: "HR Department",
-      role: "Admin",
-      message: "New employee orientation scheduled for next Monday at 9 AM.",
-      timestamp: "08:00 AM",
-      avatar: "/api/placeholder/32/32",
-      isSystem: true,
-    },
-  ],
-  "it-support": [
-    {
-      id: 1,
-      user: "John Doe",
-      role: "Employee",
-      message: "Having issues with the VPN connection. Can someone help?",
-      timestamp: "02:30 PM",
-      avatar: "/api/placeholder/32/32",
-    },
-  ],
-};
+// Removed defaultMessages as messages are now handled by Supabase
+// Use actual message data from the chat_messages table instead
 
-export const defaultAnnouncements: Announcement[] = [
-  {
-    id: 1,
-    title: "System Maintenance Scheduled",
-    content:
-      "We will be performing system maintenance on Sunday, March 10th from 2:00 AM to 4:00 AM. During this time, the system will be unavailable.",
-    author: "IT Department",
-    department: "IT",
-    priority: "high",
-    pinned: true,
-    date: "2024-03-08",
-    views: 145,
-    likes: 12,
-    comments: 3,
-    tags: ["maintenance", "system"],
-  },
-  {
-    id: 2,
-    title: "New Employee Welcome",
-    content:
-      "Please join us in welcoming Sarah Johnson to the Marketing team. She will be starting as a Marketing Specialist on Monday.",
-    author: "HR Department",
-    department: "HR",
-    priority: "medium",
-    pinned: false,
-    date: "2024-03-07",
-    views: 89,
-    likes: 25,
-    comments: 8,
-    tags: ["welcome", "team"],
-  },
-  {
-    id: 3,
-    title: "Q1 Company Meeting",
-    content:
-      "The quarterly company meeting is scheduled for March 15th at 10:00 AM in the main conference room. Attendance is mandatory for all employees.",
-    author: "Management",
-    department: "Management",
-    priority: "high",
-    pinned: true,
-    date: "2024-03-06",
-    views: 203,
-    likes: 18,
-    comments: 5,
-    tags: ["meeting", "quarterly"],
-  },
-  {
-    id: 4,
-    title: "Office Lunch Event",
-    content:
-      "Join us for a catered lunch event next Friday at 12:00 PM. Please RSVP by Wednesday to help us plan accordingly.",
-    author: "Social Committee",
-    department: "General",
-    priority: "low",
-    pinned: false,
-    date: "2024-03-05",
-    views: 156,
-    likes: 45,
-    comments: 12,
-    tags: ["social", "lunch"],
-  },
-];
+// Removed defaultAnnouncements as announcements are now fetched from Supabase
+// Use actual announcement data from the announcements table instead
 
 export const defaultEvents: Event[] = [
   {
-    id: 1,
+    id: "1",
     title: "Team Standup",
     description: "Daily team synchronization meeting",
     date: "2024-03-08",
@@ -374,7 +209,7 @@ export const defaultEvents: Event[] = [
     color: "blue",
   },
   {
-    id: 2,
+    id: "2",
     title: "Q1 Budget Review",
     description: "Quarterly budget analysis and planning session",
     date: "2024-03-08",
@@ -389,7 +224,7 @@ export const defaultEvents: Event[] = [
     color: "red",
   },
   {
-    id: 3,
+    id: "3",
     title: "System Maintenance",
     description: "Scheduled server maintenance and updates",
     date: "2024-03-10",
@@ -404,7 +239,7 @@ export const defaultEvents: Event[] = [
     color: "orange",
   },
   {
-    id: 4,
+    id: "4",
     title: "Company All-Hands",
     description: "Monthly company-wide meeting",
     date: "2024-03-15",

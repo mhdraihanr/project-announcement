@@ -6,14 +6,12 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Select,
   SelectContent,
@@ -39,7 +37,6 @@ import {
   Video,
   ChevronLeft,
   ChevronRight,
-  Filter,
 } from "lucide-react";
 import { defaultEvents } from "@/types/data";
 
@@ -49,7 +46,6 @@ interface CalendarViewProps {
 
 export default function CalendarView({ currentUser }: CalendarViewProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [viewMode, setViewMode] = useState("month");
   const [eventDialog, setEventDialog] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
@@ -69,7 +65,7 @@ export default function CalendarView({ currentUser }: CalendarViewProps) {
   const canViewEvent = (event: Event) => {
     if (!event.isPrivate) return true;
     if (event.department === currentUser.department) return true;
-    if (["Administrator", "Senior VP"].includes(currentUser.role)) return true;
+    if (["Administrator", "Senior VP"].includes(currentUser.role?.name || "")) return true;
     return false;
   };
 
@@ -79,7 +75,7 @@ export default function CalendarView({ currentUser }: CalendarViewProps) {
     "VP",
     "Officer",
     "Employee",
-  ].includes(currentUser.role);
+  ].includes(currentUser.role?.name || "");
 
   const visibleEvents = events.filter(canViewEvent);
 
@@ -114,7 +110,7 @@ export default function CalendarView({ currentUser }: CalendarViewProps) {
       const eventType: Event["type"] = newEvent.type || "meeting";
 
       const event: Event = {
-        id: events.length + 1,
+        id: (events.length + 1).toString(),
         title: newEvent.title,
         description: newEvent.description || "",
         date: selectedDate.toISOString().split("T")[0],

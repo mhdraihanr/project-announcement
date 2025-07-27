@@ -108,7 +108,7 @@ export default function AnnouncementBoard() {
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch {
       setAnnouncements([]);
       toast({
         title: "Error",
@@ -206,8 +206,8 @@ export default function AnnouncementBoard() {
           variant: "destructive",
         });
       }
-    } catch (error) {
-      console.error("Network error:", error);
+    } catch {
+      console.error("Network error");
       toast({
         title: "Error",
         description: "Network error. Please try again.",
@@ -258,7 +258,7 @@ export default function AnnouncementBoard() {
       } else {
         throw new Error("Failed to update announcement");
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to update announcement",
@@ -282,7 +282,7 @@ export default function AnnouncementBoard() {
       } else {
         throw new Error("Failed to delete announcement");
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to delete announcement",
@@ -315,7 +315,7 @@ export default function AnnouncementBoard() {
       } else {
         throw new Error("Failed to update pin");
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to update announcement",

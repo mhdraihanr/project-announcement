@@ -4,11 +4,16 @@ import type { User } from "@/types";
 export default function CalendarPage() {
   // This is temporary - in real app would come from auth/session
   const currentUser: User = {
-    id: 1,
+    id: "1",
     name: "John Doe",
-    role: "Admin",
+    role_id: "admin-role-id",
+    role: {
+      id: "admin-role-id",
+      name: "Administrator",
+      level: 1
+    },
     department: "IT",
-    avatar: "/avatars/default.png",
+    avatar_url: "/avatars/default.png",
   };
 
   return <CalendarView currentUser={currentUser} />;

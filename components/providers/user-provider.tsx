@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import type { User, Role } from "@/types";
+import type { User } from "@/types";
 
 type UserContextType = {
   user: User | null;
@@ -132,7 +132,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     // Subscribe to auth changes
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
+    } = supabase.auth.onAuthStateChange(async (event) => {
       console.log("Auth state change:", event);
       if (event === "SIGNED_IN") {
         fetchUser();

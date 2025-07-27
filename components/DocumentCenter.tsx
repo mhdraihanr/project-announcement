@@ -8,13 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useUser } from "@/components/providers/user-provider";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import {
   Dialog,
   DialogContent,
@@ -61,13 +55,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { defaultDocuments } from "@/types/data";
 
 interface DocumentCenterProps {
   currentUser: User;
 }
 
-export default function DocumentCenter({ currentUser }: DocumentCenterProps) {
+export default function DocumentCenter({}: DocumentCenterProps) {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   const { user } = useUser();
@@ -77,10 +70,11 @@ export default function DocumentCenter({ currentUser }: DocumentCenterProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [newDocument, setNewDocument] = useState({
     access_level: "Employee" as Document["access_level"],
-    access_levels: [] as string[], // Added for multiple access level selection
+    access_levels: [] as string[],
     department: user?.department || "",
-    departments: [] as string[], // Added for multiple selection
+    departments: [] as string[],
   });
+
 
   // Fetch documents and departments on mount
   useEffect(() => {
@@ -95,8 +89,8 @@ export default function DocumentCenter({ currentUser }: DocumentCenterProps) {
       if (Array.isArray(data)) {
         setDepartments(data);
       }
-    } catch (error) {
-      console.error("Error fetching departments:", error);
+    } catch {
+      console.error("Error fetching departments");
     }
   };
 
@@ -110,8 +104,8 @@ export default function DocumentCenter({ currentUser }: DocumentCenterProps) {
         console.log("Setting documents:", data.length, "documents");
         setDocuments(data);
       }
-    } catch (error) {
-      console.error("Error fetching documents:", error);
+    } catch {
+      console.error("Error fetching documents");
     } finally {
       setLoading(false);
     }
@@ -189,8 +183,7 @@ export default function DocumentCenter({ currentUser }: DocumentCenterProps) {
     return userLevel <= docLevel;
   };
 
-  const isAdminOrManager =
-    user?.role && ["Administrator", "Senior VP", "VP"].includes(user.role.name);
+
 
   // Only VP and above can create documents
   const canUpload = user?.role && user.role.level <= 3;
@@ -332,8 +325,8 @@ export default function DocumentCenter({ currentUser }: DocumentCenterProps) {
           departments: [],
         });
       }
-    } catch (error) {
-      console.error("Error uploading document:", error);
+    } catch {
+      console.error("Error uploading document");
     }
   };
 
@@ -350,8 +343,8 @@ export default function DocumentCenter({ currentUser }: DocumentCenterProps) {
       if (response.ok) {
         setDocuments(documents.filter((doc) => doc.id !== id));
       }
-    } catch (error) {
-      console.error("Error deleting document:", error);
+    } catch {
+      console.error("Error deleting document");
     }
   };
 

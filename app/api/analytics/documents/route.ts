@@ -4,8 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const cookieStore = await cookies();
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+    const supabase = createRouteHandlerClient({ cookies });
 
     // Get analytics data from the view
     const { data: analyticsData, error: analyticsError } = await supabase
@@ -14,9 +13,13 @@ export async function GET() {
       .order("created_at", { ascending: false });
 
     // Get total users first (needed for both analytics and fallback)
-    const { data: users, error: usersError } = await supabase
-      .from("users")
-      .select("id");
+    const { data: users, error: usersError } = await supabase.from("users")
+      .select(`
+        id,
+        name,
+        department,
+        roles!inner(name)
+      `);
 
     if (usersError) {
       console.error("Error fetching users:", usersError);
@@ -213,6 +216,38 @@ export async function GET() {
       },
     ];
 
+    // Calculate user read status
+    const { data: documentReadStatus, error: readStatusError } = await supabase
+      .from("document_reads")
+      .select("user_id, document_id");
+
+    const { data: documentDownloadStatus, error: downloadStatusError } =
+      await supabase.from("document_downloads").select("user_id, document_id");
+
+    const { data: allDocuments, error: allDocsError } = await supabase
+      .from("documents")
+      .select("id");
+
+    const userReadStatus =
+      users?.map((user) => {
+        const userReads =
+          documentReadStatus?.filter((read) => read.user_id === user.id) || [];
+        const userDownloads =
+          documentDownloadStatus?.filter(
+            (download) => download.user_id === user.id
+          ) || [];
+        const totalDocuments = allDocuments?.length || 0;
+
+        return {
+          userId: user.id,
+          userName: user.name || "Unknown User",
+          userDepartment: user.department || "Unknown Department",
+          readDocuments: userReads.length,
+          unreadDocuments: Math.max(0, totalDocuments - userReads.length),
+          downloadedDocuments: userDownloads.length,
+        };
+      }) || [];
+
     // Document type distribution (mock data)
     const documentTypes = [
       { type: "PDF", count: Math.floor(totalDocuments * 0.6), percentage: 60 },
@@ -252,6 +287,7 @@ export async function GET() {
       monthlyTrend,
       documentTypes,
       documentStats,
+      userReadStatus,
     });
   } catch (error) {
     console.error("Error fetching document analytics:", error);
